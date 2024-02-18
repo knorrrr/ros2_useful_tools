@@ -1,8 +1,18 @@
 # ros2_useful_tools
 Simple useful tools for ROS 2 Humble
 
+### Getting Started
+```bash
+mkdir -p ros2_ws/src && cd ros2_ws/src
+git clone git@github.com:knorrrr/ros2_useful_tools.git
+colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+```
+
 ## mono16torgb8
 This node converts from mono16 to RGB8.(But Image keeps grayscale.) 
+```bash
+ros2 launch mono16torgb8 mono16torgb8.launch.py
+```
 ### IO
 | Name                   | Type    | Description                              | Default                   |
 |------------------------|---------|------------------------------------------|---------------------------|
@@ -11,6 +21,9 @@ This node converts from mono16 to RGB8.(But Image keeps grayscale.)
 
 ## cameraInfo_publisher
 This node publishes cameraInfo topic from a yaml file.
+```bash
+ros2 launch camerainfo_publisher camerainfo_publisher.launch.py
+```
 
 ### IO
 | Name                   | Type    | Description                              | Default                   |
@@ -22,6 +35,9 @@ This node publishes cameraInfo topic from a yaml file.
  
 ## frameid_changer
 This node changes topic's frame_id.
+```bash
+ros2 launch frameid_changer frameid_changer.launch.py 
+```
 | Name                   | Type    | Description                              | Default                   |
 |------------------------|---------|------------------------------------------|---------------------------|
 | frame_id               | String  | Frame ID to be converted                 | new_frame_id              |
@@ -32,6 +48,9 @@ This node changes topic's frame_id.
 ## transformPCD
 This node changes coordinate of PointCloud2 topic according to TF information.
 We need to publish TF relation between original and output topics' frame id.
+```bash
+ros2 launch transformpcd transformpcd.launch.py
+```
 | Name                   | Type    | Description                              | Default                   |
 |------------------------|---------|------------------------------------------|---------------------------|
 | input_topic            | String  | Input topic of PointCloud2               | /vlp16/velodyne_points    |
@@ -40,7 +59,9 @@ We need to publish TF relation between original and output topics' frame id.
 
 ## twist_converter
 This node converts from TwistStamped to TwistWithCovarianceStamped(Covariance:0).
-
+```bash
+ros2 launch twist_converter twist_converter.launch.py
+```
 | Name                   | Type    | Description                                | Default                   |
 |------------------------|---------|--------------------------------------------|---------------------------|
 | frame_id               | String  | Frame id to be converted.                  | base_link                 |
