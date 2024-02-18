@@ -26,25 +26,32 @@ class CameraInfoPublisher(Node):
         camera_info.header.frame_id = self.frame_id
         camera_info.header.stamp = self.get_clock().now().to_msg()
         if (self.use_opencv == False):
-            with open(file_path, 'r') as file:
-                yaml_data = yaml.safe_load(file)
-                camera_info.height           = yaml_data['height']
-                camera_info.width            = yaml_data['width']
-                camera_info.distortion_model = yaml_data['distortion_model']
-                camera_info.d = yaml_data['D']
-                camera_info.k = yaml_data['K']
-                camera_info.r = yaml_data['R']
-                camera_info.p = yaml_data['P']
+            try:
+                with open(file_path, 'r') as file:
+                    yaml_data = yaml.safe_load(file)
+                    camera_info.height           = yaml_data['height']
+                    camera_info.width            = yaml_data['width']
+                    camera_info.distortion_model = yaml_data['distortion_model']
+                    camera_info.d = yaml_data['D']
+                    camera_info.k = yaml_data['K']
+                    camera_info.r = yaml_data['R']
+                    camera_info.p = yaml_data['P']
+            except Exception as e:
+                self.get_logger().error('Failed to load camera_info from YAML file: %s' % str(e))
+                rclpy.shutdown()
         else:
-            fs = cv2.FileStorage(file_path, cv2.FILE_STORAGE_READ)
-            # camera_info.p = fs.getNode('CameraExtrinsicMat').mat()
-            print(fs.getNode('ImageSize').at(1).real())
-            camera_info.k      = fs.getNode('CameraMat').mat().ravel().tolist()
-            camera_info.d      = fs.getNode('DistCoeff').mat().ravel().tolist()
-            camera_info.height = int(fs.getNode('ImageSize').at(1).real())
-            camera_info.width  = int(fs.getNode('ImageSize').at(0).real())
-            camera_info.distortion_model = fs.getNode('DistModel').string()
-
+            try:
+                fs = cv2.FileStorage(file_path, cv2.FILE_STORAGE_READ)
+                # camera_info.p = fs.getNode('CameraExtrinsicMat').mat()
+                print(fs.getNode('ImageSize').at(1).real())
+                camera_info.k      = fs.getNode('CameraMat').mat().ravel().tolist()
+                camera_info.d      = fs.getNode('DistCoeff').mat().ravel().tolist()
+                camera_info.height = int(fs.getNode('ImageSize').at(1).real())
+                camera_info.width  = int(fs.getNode('ImageSize').at(0).real())
+                camera_info.distortion_model = fs.getNode('DistModel').string()
+            except Exception as e:
+                self.get_logger().error('Failed to load camera_info from YAML file: %s' % str(e))
+                rclpy.shutdown()
         return camera_info
 
     def publish_camera_info(self):
