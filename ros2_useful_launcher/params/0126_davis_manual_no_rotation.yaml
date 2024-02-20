@@ -1,0 +1,26 @@
+%YAML:1.0
+---
+CameraExtrinsicMat: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [0.975, -0.155, 0.16, -0.03,
+          0.152,  0.988, 0.025, 0.0,
+          -0.162, 0.0, 0.987, -0.08,
+          0.,   0.,          0.,          1.        ] 
+CameraMat: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 2.4586431419051257e+02, 0., 1.2476782699337535e+02, 0.,
+       2.4591400120396833e+02, 8.0586049699222272e+01, 0., 0., 1. ]
+DistCoeff: !!opencv-matrix
+   rows: 1
+   cols: 5
+   dt: d
+   data: [ -3.6317639395566176e-01, 2.7282742139343574e-01,
+       3.8963086988696787e-04, -9.2454681520519886e-04,
+       -1.7023043243048461e-01 ]
+ImageSize: [ 240, 180 ]
+ReprojectionError: 2.6822551541368354e+00
+DistModel: plumb_boev_fusion/config/012&_davis_manual.yamlb
